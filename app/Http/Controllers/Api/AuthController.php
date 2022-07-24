@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -48,7 +49,13 @@ class AuthController extends Controller
     public function userInfo()
     {
 
+
+
         $user = auth()->user();
+
+        if (!Gate::allows('get-user', $user)) {
+            abort(403);
+        }
 
         return response()->json(['user' => $user], 200);
 
