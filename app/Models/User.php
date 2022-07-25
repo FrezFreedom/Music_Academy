@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function maestroability(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MaestroAbility::class);
+    }
 }
