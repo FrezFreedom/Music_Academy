@@ -9,6 +9,9 @@ class MaestroAbility extends Model
 {
     use HasFactory;
     protected $table = 'maestro_abilities';
+    protected $fillable = ['maestro_id', 'ability'];
+    public $timestamps = false;
+    public static $abilities_list = ['violin', 'guitar', 'setar', 'piano'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
