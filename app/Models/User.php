@@ -42,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function maestroability(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function maestro_ability(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(MaestroAbility::class);
     }

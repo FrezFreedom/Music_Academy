@@ -15,4 +15,14 @@ class Course extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function students(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CourseStudent::class);
+    }
+
+    public function times(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClassTime::class);
+    }
 }
