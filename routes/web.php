@@ -15,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return User::Where('type', 'maestro')->get();
+    abort(404);
 });
+
+
+Route::resource('users', \App\Http\Controllers\UserController::class);
