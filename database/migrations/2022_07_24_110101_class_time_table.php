@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('class_time', function (Blueprint $table){
+        Schema::create('class_times', function (Blueprint $table){
            $table->id();
            $table->foreignId('course_id');
-           $table->integer('description');
+           $table->text('description');
            $table->dateTime('start_time');
            $table->dateTime('end_time');
         });

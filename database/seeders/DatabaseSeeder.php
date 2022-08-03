@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             MaestroAbilitySeeder::class,
             CourseSeeder::class,
             CourseStudentSeeder::class,
+            ClassTimeSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
