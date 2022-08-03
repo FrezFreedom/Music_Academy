@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseStudent extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
