@@ -14,8 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user.index', compact('users'));
+        $users = User::where('id', '>' ,10)->paginate(5);
+        $count = User::all()->count();
+        $count = $count / 5 + ($count % 5 == true);
+
+        return view('user.index', compact('users', 'count'));
     }
 
     /**
@@ -47,7 +50,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::query()->where('id', $id)->get();
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -58,7 +62,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::query()->where('id', $id)->get();
+        $types = ['admin', 'maestro', 'staff', 'student'];
+        return view('user.edit', compact('user', 'types'));
     }
 
     /**
@@ -70,7 +76,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $values = $request->all();
+        $user = User::find($id);
+        $user->name = $values['name'];
+        $user->email = $values['email'];
+        $user->type = $values['type'];
+        $user->save();
+        return redirect('/users');
     }
 
     /**
@@ -81,6 +93,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $res = User::query()->where('id', $id)->delete();
+        $users = User::all();
+        // which one is correct?
+        return redirect('/users');
+        return view('user.index', compact('users'));
     }
 }
