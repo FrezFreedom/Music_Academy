@@ -21,7 +21,15 @@
 <body>
 
 <table class="table table-striped" style="margin: 50px;">
+
     <thead>
+    <tr>
+        <th>
+            <form action="/users/create" method="get">
+                <button class="btn btn-primary" type="submit" style="width: 100%;" >Create</button>
+            </form>
+        </th>
+    </tr>
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
@@ -62,7 +70,7 @@
 
 <div class="pagination">
     <a href="#">&laquo;</a>
-    @foreach(range(1, $count) as $page)
+    @foreach(range(1, max(2,$count)) as $page)
         <a href="/users?page={{$page}}">{{$page}}</a>
         @if($loop->iteration > 5)
             @break

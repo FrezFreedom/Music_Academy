@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '>' ,10)->paginate(5);
+        $users = User::where('id', '>' ,-1)->paginate(5);
         $count = User::all()->count();
         $count = $count / 5 + ($count % 5 == true);
 
@@ -28,7 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $types = ['admin', 'maestro', 'staff', 'student'];
+        return view('user.create', compact('types'));
     }
 
     /**
@@ -39,7 +40,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $values = $request->all();
+        // return $values;
+        User::query()->create(['email' => $values['email'], 'name' => $values['name'], 'type' => $values['type'], 'password' => $values['password']]);
+        return redirect('/users');
     }
 
     /**
