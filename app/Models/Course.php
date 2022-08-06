@@ -33,9 +33,8 @@ class Course extends Model
 {
     use HasFactory;
     protected $table = 'course';
-    public $timestamps = false;
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function maestro(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }

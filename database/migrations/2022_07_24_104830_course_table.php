@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('maestro_id');
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->enum('status', ['not started', 'running', 'finished'])->default('not started');
         });
     }
