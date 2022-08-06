@@ -15,10 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('id', '>' ,-1)->paginate(5);
-        $count = User::all()->count();
-        $count = $count / 5 + ($count % 5 == true);
-
-        return view('user.index', compact('users', 'count'));
+        return view('user.index', compact('users'));
     }
 
     /**

@@ -27,7 +27,7 @@
     <thead>
     <tr>
         <th>
-            <form action="/users/create" method="get">
+            <form action="/ability/create" method="get">
                 <button class="btn btn-primary" type="submit" style="width: 100%;" >Create</button>
             </form>
         </th>
@@ -35,27 +35,25 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Type</th>
+        <th scope="col">Ability</th>
         <th scope="col">jobs</th>
     </tr>
     </thead>
     <tbody>
-    @forelse ($users as $user)
+    @forelse ($abilities as $ability)
         <tr>
-            <th scope="row">{{ $user->id }}</th>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->type }}</td>
+            <th scope="row">{{ $ability->id }}</th>
+            <td>{{ $user_names[$ability->maestro_id] }}</td>
+            <td>{{ $ability->ability }}</td>
 
             <td>
-                <form action="/users/{{$user->id}}" method="get">
+                <form action="/ability/{{$ability->id}}" method="get">
                     <button type="submit" class="btn btn-success">Show</button>
                 </form>
-                <form action="/users/{{$user->id}}/edit" method="get">
+                <form action="/ability/{{$ability->id}}/edit" method="get">
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
-                <form action="/users/{{$user->id}}" method="post">
+                <form action="/ability/{{$ability->id}}" method="post">
                     <button class="btn btn-danger" type="submit" >Delete</button>
                     <input type="hidden" name="_method" value="delete" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -72,7 +70,7 @@
 
 {{-- Pagination --}}
 <div class="d-flex justify-content-center">
-    {!! $users->links() !!}
+    {!! $abilities->links() !!}
 </div>
 
 </body>
