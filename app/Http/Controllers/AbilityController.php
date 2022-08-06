@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ability;
 use App\Models\MaestroAbility;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,13 +16,8 @@ class AbilityController extends Controller
      */
     public function index()
     {
-        $abilities = MaestroAbility::query()->where('id', '>' ,-1)->paginate(5);
-        $users = User::all();
-        $user_names = [];
-        foreach ($users as $user){
-            $user_names[$user->id] = $user->name;
-        }
-        return view('ability.index', compact('abilities', 'user_names'));
+        $abilities = Ability::query()->paginate(5);
+        return view('ability.index', compact('abilities'));
     }
 
     /**
@@ -31,8 +27,7 @@ class AbilityController extends Controller
      */
     public function create()
     {
-        $maestros = User::query()->where('type', 'maestro')->get();
-        return view('ability.create', compact('maestros'));
+        return view('ability.create');
     }
 
     /**
@@ -44,18 +39,15 @@ class AbilityController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'abilities' => ['required'],
+            'ability' => ['required'],
         ]);
         $values = $request->all();
-        $maestro_id = $values['maestro'];
-        $abilities = $values['abilities'];
-        $abilities = explode(' ', $abilities);
-        foreach ($abilities as $ability){
-            MaestroAbility::query()->create([
-                'maestro_id' => $maestro_id,
-                'ability' => $ability,
-            ]);
-        }
+        $ability_name = $values['ability'];
+
+        Ability::query()->create([
+            'name' => $ability_name,
+        ]);
+
         return redirect('/ability');
     }
 
@@ -67,9 +59,8 @@ class AbilityController extends Controller
      */
     public function show($id)
     {
-        $ability = MaestroAbility::query()->where('id', $id)->get();
-        $name = User::query()->where('id', $ability[0]->maestro_id)->get()[0]->name;
-        return view('ability.show', compact('ability', 'name'));
+        $ability = Ability::query()->where('id', $id)->get()->first();
+        return view('ability.show', compact('ability'));
     }
 
     /**
@@ -80,9 +71,8 @@ class AbilityController extends Controller
      */
     public function edit($id)
     {
-        $maestro = MaestroAbility::query()->where('id', $id)->get()[0];
-        $name = User::query()->where('id', $maestro->maestro_id)->get()[0]->name;
-        return view('ability.edit', compact('maestro', 'name'));
+        $ability = Ability::query()->where('id', $id)->get()->first();
+        return view('ability.edit', compact('ability'));
     }
 
     /**
@@ -95,12 +85,12 @@ class AbilityController extends Controller
     public function update(Request $request, $id)
     {
         $validation = $request->validate([
-            'ability' => ['required'],
+            'name' => ['required'],
         ]);
         $values = $request->all();
-        $maestro_ability = MaestroAbility::find($id);
-        $maestro_ability->ability = $values['ability'];
-        $maestro_ability->save();
+        $ability = Ability::find($id);
+        $ability->name = $values['name'];
+        $ability->save();
         return redirect('/ability');
     }
 
@@ -112,7 +102,7 @@ class AbilityController extends Controller
      */
     public function destroy($id)
     {
-        $res = MaestroAbility::query()->where('id', $id)->delete();
-        return redirect('/users');
+        $res = Ability::query()->where('id', $id)->delete();
+        return redirect('/ability');
     }
 }

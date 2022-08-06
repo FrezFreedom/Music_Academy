@@ -34,7 +34,6 @@
     </tr>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
         <th scope="col">Ability</th>
         <th scope="col">jobs</th>
     </tr>
@@ -43,8 +42,7 @@
     @forelse ($abilities as $ability)
         <tr>
             <th scope="row">{{ $ability->id }}</th>
-            <td>{{ $user_names[$ability->maestro_id] }}</td>
-            <td>{{ $ability->ability }}</td>
+            <td>{{ $ability->name }}</td>
 
             <td>
                 <form action="/ability/{{$ability->id}}" method="get">
@@ -59,10 +57,9 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 </form>
             </td>
-            </td>
         </tr>
     @empty
-        <p>No users</p>
+        <p>No abilities</p>
     @endforelse
     </tbody>
 </table>

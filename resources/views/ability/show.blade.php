@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<h1>{{$ability[0]->id}} , {{$name}}</h1>
-<h2>{{$ability[0]->ability}}</h2>
+<h1>{{$ability->id}}</h1>
+<h2>{{$ability->name}}</h2>
 
 </table>
 

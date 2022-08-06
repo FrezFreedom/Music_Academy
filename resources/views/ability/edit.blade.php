@@ -7,18 +7,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<form style="margin: 100px; margin-left: 30%; margin-right: 30%;" method="post" action="/ability/{{$maestro->id}}">
+<form style="margin: 100px; margin-left: 30%; margin-right: 30%;" method="post" action="/ability/{{$ability->id}}">
     <input type="hidden" name="_method" value="put" />
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{$name}}" readonly>
+        <label for="name">Ability Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{$ability->name}}">
     </div>
-    <div class="form-group">
-        <label for="name">Ability</label>
-        <input type="text" class="form-control" id="ability" name="ability" value="{{$maestro->ability}}">
-    </div>
-    @error('ability')
+    @error('name')
         <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
     @enderror
     <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%;">Submit</button>
