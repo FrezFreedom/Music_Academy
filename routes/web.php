@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
+    abort(404);
     if(User::query()->where('id', 1)->exists()){
         return 'are';
     }

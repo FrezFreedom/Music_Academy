@@ -18,6 +18,9 @@
         <label for="name">Ability</label>
         <input type="text" class="form-control" id="ability" name="ability" value="{{$maestro->ability}}">
     </div>
+    @error('ability')
+        <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+    @enderror
     <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%;">Submit</button>
 </form>
 

@@ -22,7 +22,9 @@
         <input type="text" class="form-control" id="abilities" name="abilities" placeholder="Guitar Setar Piano">
         <small id="emailHelp" class="form-text text-muted">Write abilities seperated with spaces!</small>
     </div>
-
+    @error('abilities')
+        <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+    @enderror
     <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%;">Submit</button>
 </form>
 

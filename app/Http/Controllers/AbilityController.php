@@ -43,6 +43,9 @@ class AbilityController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = $request->validate([
+            'abilities' => ['required'],
+        ]);
         $values = $request->all();
         $maestro_id = $values['maestro'];
         $abilities = $values['abilities'];
@@ -91,6 +94,9 @@ class AbilityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validation = $request->validate([
+            'ability' => ['required'],
+        ]);
         $values = $request->all();
         $maestro_ability = MaestroAbility::find($id);
         $maestro_ability->ability = $values['ability'];

@@ -11,22 +11,35 @@
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="test@gmail.com">
+        <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="{{ old('email') }}" placeholder="test@gmail.com">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
+    @error('email')
+        <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+    @enderror
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Ali Akbari">
+        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Ali Akbari">
     </div>
+    @error('name')
+        <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+    @enderror
     <div class="form-group">
         <label for="name">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
+        <input type="password" class="form-control" id="password" value="{{ old('password') }}" name="password">
     </div>
+    @error('password')
+        <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+    @enderror
     <div class="form-group" style="margin-top: 5px;">
         <label for="type">Type</label>
         <select style="margin-top: 3px;" class="form-select" aria-label="Default select example" name="type" id="type">
             @foreach($types as $type)
-                <option value="{{$type}}">{{$type}}</option>
+                @if (old('type') == $type)
+                    <option value="{{$type}}" selected>{{$type}}</option>
+                @else
+                    <option value="{{$type}}">{{$type}}</option>
+                @endif
             @endforeach
         </select>
     </div>

@@ -37,6 +37,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = $request->validate([
+            'email' => ['required', 'email:rfc,dns'],
+            'name' => ['required', 'min:4'],
+            'password' => ['required', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
+            'type' => ['in:admin,maestro,staff,student'],
+        ]);
         $values = $request->all();
         // return $values;
         User::query()->create(['email' => $values['email'], 'name' => $values['name'], 'type' => $values['type'], 'password' => $values['password']]);
@@ -77,6 +83,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validation = $request->validate([
+            'email' => ['required', 'email:rfc,dns'],
+            'name' => ['required', 'min:4'],
+            'type' => ['in:admin,maestro,staff,student'],
+        ]);
         $values = $request->all();
         $user = User::find($id);
         $user->name = $values['name'];
