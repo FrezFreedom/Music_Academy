@@ -37,6 +37,7 @@
         <th scope="col">Name</th>
         <th scope="col">Email</th>
         <th scope="col">Type</th>
+        <th scope="col">Abilities</th>
         <th scope="col">jobs</th>
     </tr>
     </thead>
@@ -47,6 +48,17 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->type }}</td>
+            <td>
+                @if($user->type != "maestro")
+                    No Abilities!
+                @else
+                    @forelse($user->abilities as $ability)
+                        <span style="background: #87d37c;padding: 5px 10px 5px 10px;border: 1px solid none; border-radius: 10px; box-shadow: 1px 1px 5px grey;">{{$ability->name}}</span>
+                    @empty
+                        No Abilities!
+                    @endforelse
+                @endif
+            </td>
 
             <td>
                 <form action="/users/{{$user->id}}" method="get">

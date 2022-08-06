@@ -35,14 +35,22 @@
         <label for="type">Type</label>
         <select style="margin-top: 3px;" class="form-select" aria-label="Default select example" name="type" id="type">
             @foreach($types as $type)
-                @if (old('type') == $type)
-                    <option value="{{$type}}" selected>{{$type}}</option>
-                @else
-                    <option value="{{$type}}">{{$type}}</option>
-                @endif
+                <option value="{{$type}}" {{(old('type') == $type)?'selected':''}}>{{$type}}</option>
             @endforeach
         </select>
     </div>
+
+    @forelse($abilities as $ability)
+        <div class="form-check form-check-inline" style="margin-top: 5px;">
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="{{$ability->name}}">
+            <label class="form-check-label" for="flexCheckDefault">
+                {{$ability->name}}
+            </label>
+        </div>
+    @empty
+        No Abilities Found!
+    @endforelse
+
     <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%;">Submit</button>
 </form>
 

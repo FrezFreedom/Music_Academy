@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ability;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,8 @@ class UserController extends Controller
     public function create()
     {
         $types = ['admin', 'maestro', 'staff', 'student'];
-        return view('user.create', compact('types'));
+        $abilities = Ability::query()->get();
+        return view('user.create', compact('types', 'abilities'));
     }
 
     /**
@@ -38,14 +40,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'email' => ['required', 'email:rfc,dns'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
             'name' => ['required', 'min:4'],
             'password' => ['required', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
             'type' => ['in:admin,maestro,staff,student'],
         ]);
         $values = $request->all();
-        // return $values;
-        User::query()->create(['email' => $values['email'], 'name' => $values['name'], 'type' => $values['type'], 'password' => $values['password']]);
+        $abilities = Ability::query()->get();
+        //return $values;
+        $new_user = User::query()->create(['email' => $values['email'], 'name' => $values['name'], 'type' => $values['type'], 'password' => $values['password']]);
+        foreach ($abilities as $ability){
+            if($request->has($ability->name)){
+                $specific_ability = Ability::query()->find($ability->id);
+                $new_user->abilities()->save($specific_ability);
+            }
+        }
         return redirect('/users');
     }
 
@@ -71,7 +80,13 @@ class UserController extends Controller
     {
         $user = User::query()->where('id', $id)->get();
         $types = ['admin', 'maestro', 'staff', 'student'];
-        return view('user.edit', compact('user', 'types'));
+        $abilities = Ability::query()->get();
+        $user_abilities = User::query()->where('id', $id)->first()->abilities;
+        $user_abilities_list = [];
+        foreach ($user_abilities as $ability){
+            $user_abilities_list[] = $ability->id;
+        }
+        return view('user.edit', compact('user', 'types', 'abilities', 'user_abilities_list'));
     }
 
     /**
@@ -84,16 +99,38 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validation = $request->validate([
-            'email' => ['required', 'email:rfc,dns'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email,'.$id],
             'name' => ['required', 'min:4'],
             'type' => ['in:admin,maestro,staff,student'],
         ]);
         $values = $request->all();
+        // return $values;
         $user = User::find($id);
         $user->name = $values['name'];
         $user->email = $values['email'];
         $user->type = $values['type'];
         $user->save();
+
+        $abilities = Ability::query()->get();
+        //return $values;
+
+        $user_abilities = User::query()->where('id', $id)->first()->abilities;
+        $user_abilities_list = [];
+        foreach ($user_abilities as $ability){
+            $user_abilities_list[] = $ability->id;
+        }
+
+        foreach ($abilities as $ability){
+            $specific_ability = Ability::query()->find($ability->id);
+            if($request->has($ability->name)){
+                if(!in_array($ability->id,$user_abilities_list)){
+                    $user->abilities()->attach($specific_ability);
+                }
+            }
+            else{
+                $user->abilities()->detach($specific_ability);
+            }
+        }
         return redirect('/users');
     }
 
