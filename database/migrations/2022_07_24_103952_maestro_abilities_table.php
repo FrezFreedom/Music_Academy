@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('maestro_abilities', function(Blueprint $table){
            $table->id();
-           $table->foreignId('maestro_id');
-           $table->string('ability');
+           $table->timestamps();
         });
     }
 

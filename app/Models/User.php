@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class);
     }
+
+    public function abilities()
+    {
+        return $this->belongsToMany(Ability::class, MaestroAbility::class);
+    }
 }
