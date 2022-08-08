@@ -61,13 +61,13 @@
             </td>
 
             <td>
-                <form action="/users/{{$user->id}}" method="get">
+                <form action="/users/{{$user->id}}" method="get" style="all: unset !important;">
                     <button type="submit" class="btn btn-success">Show</button>
                 </form>
-                <form action="/users/{{$user->id}}/edit" method="get">
+                <form action="/users/{{$user->id}}/edit" method="get" style="all: unset !important;">
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
-                <form action="/users/{{$user->id}}" method="post">
+                <form action="/users/{{$user->id}}" method="post" style="all: unset !important;">
                     <button class="btn btn-danger" type="submit" >Delete</button>
                     <input type="hidden" name="_method" value="delete" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

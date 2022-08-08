@@ -87,7 +87,7 @@ class User extends Authenticatable
         return $this->hasMany(MaestroAbility::class);
     }
 
-    public function course(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function courses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Course::class);
     }

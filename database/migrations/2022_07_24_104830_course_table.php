@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('course', function (Blueprint $table){
             $table->id();
+            $table->timestamps();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable(true)->references('id')->on('users')->cascadeOnDelete();
             $table->enum('status', ['not started', 'running', 'finished'])->default('not started');
         });
     }

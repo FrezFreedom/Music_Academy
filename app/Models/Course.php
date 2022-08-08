@@ -33,10 +33,15 @@ class Course extends Model
 {
     use HasFactory;
     protected $table = 'course';
+    protected $fillable = [
+        'name',
+        'description',
+        'status'
+    ];
 
     public function maestro(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function students(): \Illuminate\Database\Eloquent\Relations\HasMany
