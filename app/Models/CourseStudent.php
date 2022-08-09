@@ -26,6 +26,10 @@ class CourseStudent extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $fillable = [
+        'course_id',
+        'student_id'
+    ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

@@ -78,6 +78,21 @@ class CourseController extends Controller
         return redirect('/course');
     }
 
+    public function deleteStudentsPage(Request $request, $course_id)
+    {
+        CourseStudent::where('id', $request['student_id'])->delete();
+        return redirect('/course/'.$course_id.'/students');
+    }
+
+    public function addStudent(Request $request, $course_id)
+    {
+        CourseStudent::create([
+            'course_id' => $course_id,
+            'student_id' => $request['student']
+        ]);
+        return redirect('/course/'.$course_id.'/students');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -97,7 +112,10 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $course = Course::query()->where('id', $id)->get()->first();
+        $maestros = User::query()->where('type', 'maestro')->get();
+        $status_list = ['running', 'not started', 'finished'];
+        return view('course.edit', compact('course','maestros', 'status_list'));
     }
 
     /**
@@ -109,7 +127,25 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $values = $request->all();
+        $course = Course::find($id);
+        $course->name = $values['name'];
+        $course->description = $values['description'];
+        $course->status = $values['status'];
+        $course->save();
+        User::find($values['maestro'])->courses()->save($course);
+        //$last_maestro = User::query()->where('id', $course->maestro()->id);
+        return redirect('/course');
+//        $user = User::query()->where('id', $id)->get();
+//        $types = ['admin', 'maestro', 'staff', 'student'];
+//        $abilities = Ability::query()->get();
+//        $user_abilities = User::query()->where('id', $id)->first()->abilities;
+//        $user_abilities_list = [];
+//        foreach ($user_abilities as $ability){
+//            $user_abilities_list[] = $ability->id;
+//        }
+//        return view('user.edit', compact('user', 'types', 'abilities', 'user_abilities_list'));
+
     }
 
     /**
@@ -122,5 +158,16 @@ class CourseController extends Controller
     {
         Course::where('id', $id)->delete();
         return redirect('course');
+    }
+
+    public function students($id)
+    {
+        $course = Course::find($id);
+        $user_names = [];
+        $students = User::all();
+        foreach ($students as $user){
+            $user_names[$user->id] = $user->name;
+        }
+        return view('course.students', compact('course','user_names','students'));
     }
 }

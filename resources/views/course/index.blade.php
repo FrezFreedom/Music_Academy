@@ -78,7 +78,7 @@
 
             <td>
 
-                <form action="/course/{{$course->id}}" method="get" style="all: unset !important;">
+                <form action="/course/{{$course->id}}/students" method="get" style="all: unset !important;">
                     <button type="submit" class="btn btn-success">Students</button>
                 </form>
                 <form action="/course/{{$course->id}}/edit" method="get" style="all: unset !important;">
