@@ -44,27 +44,24 @@
             @endforelse
         </div>
     </div>
-    @error('name')
-    <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
-    @enderror
 
     <div class="form-group" style="margin-top: 5px;">
         <label for="student">Students</label>
         <form action="/course/{{$course->id}}/students/add" method="post">
             <select style="margin-top: 3px;" class="form-select" aria-label="Default select example" name="student" id="student">
                 @foreach($students as $student)
-                    <option value="{{$student->id}}" {{(old('$student') == $student)?'selected':''}}>{{$student->name}}</option>
+                    <option value="{{$student->id}}" {{(old('student') == $student->id)?'selected':''}}>{{$student->name}}</option>
                 @endforeach
             </select>
+            @error('student')
+                <div class="alert alert-danger" style="margin-top: 5px; padding: 5px;">{{ $message }}</div>
+            @enderror
             <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%;">Submit</button>
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
         </form>
     </div>
 
-
 </div>
-
-
 
 </body>
 </html>

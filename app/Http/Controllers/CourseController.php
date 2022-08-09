@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\User;
+use App\Rules\studentCourseRepeating;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -86,6 +87,9 @@ class CourseController extends Controller
 
     public function addStudent(Request $request, $course_id)
     {
+        $validation = $request->validate([
+            'student' => [new studentCourseRepeating($course_id,$request['student'])]
+        ]);
         CourseStudent::create([
             'course_id' => $course_id,
             'student_id' => $request['student']
