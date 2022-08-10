@@ -36,3 +36,13 @@ Route::get('course/{id}/students', [\App\Http\Controllers\CourseController::clas
 Route::resource('users', \App\Http\Controllers\UserController::class);
 Route::resource('ability', \App\Http\Controllers\AbilityController::class);
 Route::resource('course', \App\Http\Controllers\CourseController::class);
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
