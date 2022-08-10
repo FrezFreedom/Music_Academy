@@ -29,13 +29,17 @@ Route::get('/', function () {
     return $course->students;
 });
 
-Route::post('course/{id}/students/delete', [\App\Http\Controllers\CourseController::class,'deleteStudentsPage']);
-Route::post('course/{id}/delete', [\App\Http\Controllers\CourseController::class,'deleteStudent']);
-Route::post('/course/{id}/students/add',[\App\Http\Controllers\CourseController::class, 'addStudent']);
-Route::get('course/{id}/students', [\App\Http\Controllers\CourseController::class,'students']);
-Route::resource('users', \App\Http\Controllers\UserController::class);
-Route::resource('ability', \App\Http\Controllers\AbilityController::class);
-Route::resource('course', \App\Http\Controllers\CourseController::class);
+
+
+Route::group(['middleware' => ['can:isAdmin']], function() {
+    Route::post('course/{id}/students/delete', [\App\Http\Controllers\CourseController::class,'deleteStudentsPage']);
+    Route::post('course/{id}/delete', [\App\Http\Controllers\CourseController::class,'deleteStudent']);
+    Route::post('/course/{id}/students/add',[\App\Http\Controllers\CourseController::class, 'addStudent']);
+    Route::get('course/{id}/students', [\App\Http\Controllers\CourseController::class,'students']);
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('ability', \App\Http\Controllers\AbilityController::class);
+    Route::resource('course', \App\Http\Controllers\CourseController::class);
+});
 
 Route::middleware([
     'auth:sanctum',

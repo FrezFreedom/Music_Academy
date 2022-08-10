@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ability;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use function PHPUnit\Framework\throwException;
 
 class UserController extends Controller
@@ -16,6 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('isAdmin'))
+            abort(403);
         $users = User::where('id', '>' ,-1)->paginate(5);
         return view('user.index', compact('users'));
     }
