@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -58,4 +59,19 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function maestro_ability(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MaestroAbility::class);
+    }
+
+    public function courses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function abilities()
+    {
+        return $this->belongsToMany(Ability::class, MaestroAbility::class);
+    }
 }

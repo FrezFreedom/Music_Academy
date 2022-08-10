@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ability;
 use App\Models\User;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\throwException;
 
 class UserController extends Controller
 {
@@ -83,7 +84,8 @@ class UserController extends Controller
         $abilities = Ability::query()->get();
         $user_abilities = User::query()->where('id', $id)->first()->abilities;
         $user_abilities_list = [];
-        foreach ($user_abilities as $ability){
+
+        foreach ($user_abilities as $ability) {
             $user_abilities_list[] = $ability->id;
         }
         return view('user.edit', compact('user', 'types', 'abilities', 'user_abilities_list'));
